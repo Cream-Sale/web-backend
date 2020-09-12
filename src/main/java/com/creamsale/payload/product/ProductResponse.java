@@ -13,7 +13,8 @@ public class ProductResponse {
     private final String shopCategory;
     private final String imageLink;
 
-    public ProductResponse(Long id, String name, String fullName, Long shopId, Float price, Currency currency, String shopCategory, String imageLink) {
+    public ProductResponse(Long id, String name, String fullName, Long shopId, Float price, Currency currency,
+                           String shopCategory, String imageLink) {
         this.id = id;
         this.name = name;
         this.fullName = fullName;

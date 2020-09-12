@@ -49,7 +49,7 @@ public class CashBackController {
     }
 
     @GetMapping("/cashback/name/{cashBackName}")
-    public CashBackResponse findCashBackById(@PathVariable final String cashBackName) {
+    public CashBackResponse findCashBackByName(@PathVariable final String cashBackName) {
         return cashBackService.findCashBackByName(cashBackName);
     }
 
