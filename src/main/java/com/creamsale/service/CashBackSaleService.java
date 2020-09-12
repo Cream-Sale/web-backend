@@ -44,4 +44,9 @@ public class CashBackSaleService {
         return cashBackSaleMapper.toCashBackSaleResponse(cashBackSale);
     }
 
+    public CashBackSaleResponse findCashBackSaleByShopId(final Long shopId) {
+        CashBackSale cashBackSale = cashBackSaleRepository.findCashBackSaleByShopId(shopId);
+        return cashBackSaleMapper.toCashBackSaleResponse(cashBackSale);
+    }
+
 }

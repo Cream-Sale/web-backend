@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/search")
@@ -22,8 +24,10 @@ public class SearchController {
     }
 
     @PostMapping("/product/{productName}")
-    public List<ProductOfferResponse> findProductOffers(@PathVariable final String productName) {
-        //ToDo validate productName
+    public List<ProductOfferResponse> findProductOffers(@Valid @PathVariable final String productName) {
+        if (Objects.isNull(productName) || productName.equals("")) {
+            return null; //ToDo
+        }
 
         return searchService.findProductOffers(productName);
     }

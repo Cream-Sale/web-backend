@@ -1,37 +1,22 @@
 package com.creamsale.payload.product;
 
-import com.creamsale.domain.CashBack;
-import com.creamsale.domain.CashBackSale;
-import com.creamsale.domain.Product;
-import com.creamsale.domain.Shop;
+import com.creamsale.payload.cashback.CashBackSaleResponse;
 
 public class ProductOfferResponse {
 
-    private final Product product;
-    private final CashBackSale cashBackSale;
-    private final CashBack cashBack;
-    private final Shop shop;
+    private final ProductResponse productResponse;
+    private final CashBackSaleResponse cashBackSaleResponse;
 
-    public ProductOfferResponse(Product product, CashBackSale cashBackSale, CashBack cashBack, Shop shop) {
-        this.product = product;
-        this.cashBackSale = cashBackSale;
-        this.cashBack = cashBack;
-        this.shop = shop;
+    public ProductOfferResponse(ProductResponse productResponse, CashBackSaleResponse cashBackSaleResponse) {
+        this.productResponse = productResponse;
+        this.cashBackSaleResponse = cashBackSaleResponse;
     }
 
-    public Product getProduct() {
-        return product;
+    public ProductResponse getProductResponse() {
+        return productResponse;
     }
 
-    public CashBackSale getCashBackSale() {
-        return cashBackSale;
-    }
-
-    public CashBack getCashBack() {
-        return cashBack;
-    }
-
-    public Shop getShop() {
-        return shop;
+    public CashBackSaleResponse getCashBackSaleResponse() {
+        return cashBackSaleResponse;
     }
 }

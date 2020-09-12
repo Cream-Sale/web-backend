@@ -12,4 +12,6 @@ public interface CashBackSaleRepository extends JpaRepository<CashBackSale, Long
 
     CashBackSale findCashBackSaleByShop(Shop shop);
 
+    CashBackSale findCashBackSaleByShopId(Long id);
+
 }

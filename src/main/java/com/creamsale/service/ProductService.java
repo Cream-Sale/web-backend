@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -38,9 +40,13 @@ public class ProductService {
         return productMapper.toProductResponse(product);
     }
 
-    public ProductResponse findProductByName(final String productName) {
-        Product product = productRepository.findProductByName(productName);
-        return productMapper.toProductResponse(product);
+    public List<ProductResponse> findProductsByName(final String productName) {
+        List<Product> products = productRepository.findProductsByName(productName);
+        List<ProductResponse> productResponses = products.stream()
+                .filter(Objects::nonNull)
+                .map(productMapper::toProductResponse)
+                .collect(Collectors.toList());
+        return productResponses;
     }
 
 }
