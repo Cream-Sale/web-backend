@@ -1,4 +1,4 @@
-package com.creamsale.model;
+package com.creamsale.domain;
 
 import javax.persistence.*;
 

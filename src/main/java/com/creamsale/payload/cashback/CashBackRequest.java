@@ -1,21 +1,15 @@
-package com.creamsale.payload;
+package com.creamsale.payload.cashback;
 
-public class ShopResponse {
+public class CashBackRequest {
 
-    private final Long id;
     private final String name;
     private final String link;
     private final String imgLink;
 
-    public ShopResponse(Long id, String name, String link, String imgLink) {
-        this.id = id;
+    public CashBackRequest(String name, String link, String imgLink) {
         this.name = name;
         this.link = link;
         this.imgLink = imgLink;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getName() {
@@ -29,4 +23,5 @@ public class ShopResponse {
     public String getImgLink() {
         return imgLink;
     }
+
 }

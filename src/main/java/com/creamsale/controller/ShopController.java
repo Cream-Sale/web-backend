@@ -1,9 +1,9 @@
 package com.creamsale.controller;
 
-import com.creamsale.model.Shop;
+import com.creamsale.domain.Shop;
 import com.creamsale.payload.ApiResponse;
-import com.creamsale.payload.ShopRequest;
-import com.creamsale.payload.ShopResponse;
+import com.creamsale.payload.shop.ShopRequest;
+import com.creamsale.payload.shop.ShopResponse;
 import com.creamsale.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +26,7 @@ public class ShopController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createShop(@Valid @RequestBody ShopRequest shopRequest) {
+    public ResponseEntity<?> createShop(@Valid @RequestBody final ShopRequest shopRequest) {
 
         Shop createdShop = shopService.createShop(shopRequest);
 
@@ -41,6 +41,16 @@ public class ShopController {
     @GetMapping("/all")
     public List<ShopResponse> findAllShops() {
         return shopService.findAllShops();
+    }
+
+    @GetMapping("/shop/id/{shopId}")
+    public ShopResponse findShopById(@PathVariable final Long shopId) {
+        return shopService.findShopById(shopId);
+    }
+
+    @GetMapping("/shop/name/{shopName}")
+    public ShopResponse findShopById(@PathVariable final String shopName) {
+        return shopService.findShopByName(shopName);
     }
 
 }
