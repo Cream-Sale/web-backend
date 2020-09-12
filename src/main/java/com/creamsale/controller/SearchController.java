@@ -1,6 +1,6 @@
 package com.creamsale.controller;
 
-import com.creamsale.payload.product_offer.ProductOfferResponse;
+import com.creamsale.payload.product.ProductOfferResponse;
 import com.creamsale.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;

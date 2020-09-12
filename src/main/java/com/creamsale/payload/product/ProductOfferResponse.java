@@ -1,4 +1,4 @@
-package com.creamsale.payload.product_offer;
+package com.creamsale.payload.product;
 
 import com.creamsale.domain.CashBack;
 import com.creamsale.domain.CashBackSale;
