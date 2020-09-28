@@ -3,6 +3,9 @@ package com.creamsale.service.mapper;
 import com.creamsale.domain.CashBackSale;
 import com.creamsale.payload.cashback.CashBackSaleRequest;
 import com.creamsale.payload.cashback.CashBackSaleResponse;
+import com.creamsale.repository.CashBackRepository;
+import com.creamsale.repository.ShopRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,15 +15,25 @@ import java.util.stream.Collectors;
 @Service
 public class CashBackSaleMapper {
 
+    private final CashBackRepository cashBackRepository;
+
+    private final ShopRepository shopRepository;
+
+    @Autowired
+    public CashBackSaleMapper(CashBackRepository cashBackRepository, ShopRepository shopRepository) {
+        this.cashBackRepository = cashBackRepository;
+        this.shopRepository = shopRepository;
+    }
+
     public CashBackSale toCashBackSaleModel(final CashBackSaleRequest cashBackSaleRequest) {
         if (Objects.isNull(cashBackSaleRequest)) {
             return null;
         }
         CashBackSale cashBackSale = new CashBackSale();
-        cashBackSale.setCashBack(cashBackSaleRequest.getCashBack());
+        cashBackSale.setCashBack(cashBackRepository.findCashBackById(cashBackSaleRequest.getCashBackId()));
         cashBackSale.setDescription(cashBackSaleRequest.getDescription());
         cashBackSale.setSale(cashBackSaleRequest.getSale());
-        cashBackSale.setShop(cashBackSaleRequest.getShop());
+        cashBackSale.setShop(shopRepository.findShopById(cashBackSaleRequest.getShopId()));
         return cashBackSale;
     }
 

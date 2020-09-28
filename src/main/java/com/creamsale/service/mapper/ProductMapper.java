@@ -23,7 +23,7 @@ public class ProductMapper {
         product.setPrice(productRequest.getPrice());
         product.setCurrency(productRequest.getCurrency());
         product.setShopCategory(productRequest.getShopCategory());
-        product.setId(productRequest.getShopId());
+        product.setShopId(productRequest.getShopId());
         return product;
     }
 

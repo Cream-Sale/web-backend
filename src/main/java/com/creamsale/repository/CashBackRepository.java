@@ -9,6 +9,6 @@ public interface CashBackRepository extends JpaRepository<CashBack, Long> {
 
     CashBack findCashBackById(Long id);
 
-    CashBack findCashBackName(String name);
+    CashBack findCashBackByName(String name);
 
 }

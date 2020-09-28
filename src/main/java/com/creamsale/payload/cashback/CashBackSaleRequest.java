@@ -1,31 +1,28 @@
 package com.creamsale.payload.cashback;
 
-import com.creamsale.domain.CashBack;
-import com.creamsale.domain.Shop;
-
 public class CashBackSaleRequest {
 
-    private final CashBack cashBack;
-    private final Shop shop;
-    private final Integer sale;
+    private final Long cashBackId;
+    private final Long shopId;
+    private final Float sale;
     private final String description;
 
-    public CashBackSaleRequest(CashBack cashBack, Shop shop, Integer sale, String description) {
-        this.cashBack = cashBack;
-        this.shop = shop;
+    public CashBackSaleRequest(Long cashBackId, Long shopId, Float sale, String description) {
+        this.cashBackId = cashBackId;
+        this.shopId = shopId;
         this.sale = sale;
         this.description = description;
     }
 
-    public CashBack getCashBack() {
-        return cashBack;
+    public Long getCashBackId() {
+        return cashBackId;
     }
 
-    public Shop getShop() {
-        return shop;
+    public Long getShopId() {
+        return shopId;
     }
 
-    public Integer getSale() {
+    public Float getSale() {
         return sale;
     }
 

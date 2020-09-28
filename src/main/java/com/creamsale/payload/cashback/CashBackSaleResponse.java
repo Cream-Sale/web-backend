@@ -8,10 +8,10 @@ public class CashBackSaleResponse {
     private final Long id;
     private final CashBack cashBack;
     private final Shop shop;
-    private final Integer sale;
+    private final Float sale;
     private final String description;
 
-    public CashBackSaleResponse(Long id, CashBack cashBack, Shop shop, Integer sale, String description) {
+    public CashBackSaleResponse(Long id, CashBack cashBack, Shop shop, Float sale, String description) {
         this.id = id;
         this.cashBack = cashBack;
         this.shop = shop;
@@ -31,7 +31,7 @@ public class CashBackSaleResponse {
         return shop;
     }
 
-    public Integer getSale() {
+    public Float getSale() {
         return sale;
     }
 

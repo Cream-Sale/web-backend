@@ -19,7 +19,7 @@ public class CashBackSale {
     private Shop shop;
 
     @Column(nullable = false)
-    private Integer sale;
+    private Float sale;
 
     @Column(nullable = false)
     private String description;
@@ -48,11 +48,11 @@ public class CashBackSale {
         this.shop = shop;
     }
 
-    public Integer getSale() {
+    public Float getSale() {
         return sale;
     }
 
-    public void setSale(Integer sale) {
+    public void setSale(Float sale) {
         this.sale = sale;
     }
 

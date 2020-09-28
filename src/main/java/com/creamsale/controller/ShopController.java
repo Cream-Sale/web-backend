@@ -49,7 +49,7 @@ public class ShopController {
     }
 
     @GetMapping("/shop/name/{shopName}")
-    public ShopResponse findShopById(@PathVariable final String shopName) {
+    public ShopResponse findShopByName(@PathVariable final String shopName) {
         return shopService.findShopByName(shopName);
     }
 

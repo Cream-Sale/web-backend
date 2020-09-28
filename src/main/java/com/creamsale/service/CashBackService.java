@@ -39,7 +39,7 @@ public class CashBackService {
     }
 
     public CashBackResponse findCashBackByName(final String cashBackName) {
-        CashBack cashBack = cashBackRepository.findCashBackName(cashBackName);
+        CashBack cashBack = cashBackRepository.findCashBackByName(cashBackName);
         return cashBackMapper.toCashBackResponse(cashBack);
     }
 
