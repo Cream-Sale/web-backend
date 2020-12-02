@@ -1,12 +1,9 @@
 package com.creamsale.controller;
 
-import com.creamsale.payload.product.ProductOfferResponse;
+import com.creamsale.payload.product.ProductOffer;
 import com.creamsale.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Objects;
@@ -22,13 +19,14 @@ public class SearchController {
         this.searchService = searchService;
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/product")
-    public List<ProductOfferResponse> findProductOffers(@RequestParam(value = "search") final String productName) {
-        if (Objects.isNull(productName) || productName.equals("")) {
+    public List<ProductOffer> findProductOffers(@RequestParam(value = "search") final String search) {
+        if (Objects.isNull(search) || search.equals("")) {
             return null; //ToDo
         }
 
-        return searchService.findProductOffers(productName);
+        return searchService.findProductOffers(search);
     }
 
 }

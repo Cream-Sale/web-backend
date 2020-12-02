@@ -1,7 +1,7 @@
 package com.creamsale.service;
 
 import com.creamsale.payload.cashback.CashBackSaleResponse;
-import com.creamsale.payload.product.ProductOfferResponse;
+import com.creamsale.payload.product.ProductOffer;
 import com.creamsale.payload.product.ProductResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,15 +23,19 @@ public class SearchService {
         this.cashBackSaleService = cashBackSaleService;
     }
 
-    public List<ProductOfferResponse> findProductOffers(final String productName) {
+    public List<ProductOffer> findProductOffers(final String productName) {
         //ToDo optimize product search
 
         List<ProductResponse> productResponses = productService.findProductsByName(productName);
-        List<ProductOfferResponse> productOfferResponses = productResponses.stream()
+
+        List<ProductOffer> productOfferResponses = productResponses.stream()
                 .filter(Objects::nonNull)
                 .map(productResponse -> {
                     CashBackSaleResponse cashBackSaleResponse = cashBackSaleService.findCashBackSaleByShopId(productResponse.getShopId());
-                    return new ProductOfferResponse(productResponse, cashBackSaleResponse);
+                    String priceWithSale = String.valueOf((100 - cashBackSaleResponse.getSale()) * productResponse.getPrice() / 100);
+                    return new ProductOffer(productResponse.getName(), productResponse.getImageLink(),
+                            String.valueOf(productResponse.getPrice()), priceWithSale,
+                            cashBackSaleResponse.getCashBack().getImgLink());
                 })
                 .collect(Collectors.toList());
         return productOfferResponses;
