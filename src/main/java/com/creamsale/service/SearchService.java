@@ -23,25 +23,38 @@ public class SearchService {
         this.cashBackSaleService = cashBackSaleService;
     }
 
-    public List<ProductOffer> findProductOffers(final String productName) {
-        //ToDo optimize product search
+    public List<ProductOffer> findProductOffersByPartOfProductName(final String partOfProductName) {
+        List<ProductResponse> productResponses = productService.findProductsByPartOfName(partOfProductName);
+        return getProductOffers(productResponses);
+    }
 
-        List<ProductResponse> productResponses = productService.findProductsByName(productName);
+    public List<ProductOffer> findProductOffersByPartOfProductNameAndShopsAndPriceRange(
+            final String partOfProductName,
+            final List<Long> shops,
+            final Float priceFrom,
+            final Float priceTo) {
 
+        List<ProductResponse> productResponses = productService.findProductsByPartOfNameAndShopsAndPriceRange(
+                partOfProductName, shops, priceFrom, priceTo
+        );
+        return getProductOffers(productResponses);
+    }
+
+    private List<ProductOffer> getProductOffers(List<ProductResponse> productResponses) {
         List<ProductOffer> productOfferResponses = productResponses.stream()
                 .filter(Objects::nonNull)
                 .map(productResponse -> {
                     CashBackSaleResponse cashBackSaleResponse = cashBackSaleService.findCashBackSaleByShopId(productResponse.getShopId());
                     String priceWithSale = String.valueOf((100 - cashBackSaleResponse.getSale()) * productResponse.getPrice() / 100);
-                    return new ProductOffer(productResponse.getName(), productResponse.getImageLink(),
-                            String.valueOf(productResponse.getPrice()), priceWithSale,
-                            cashBackSaleResponse.getCashBack().getImgLink());
+                    return new ProductOffer(
+                            productResponse.getName(),
+                            productResponse.getImageLink(),
+                            String.valueOf(productResponse.getPrice()),
+                            priceWithSale,
+                            cashBackSaleResponse.getCashBack().getImgLink()
+                    );
                 })
                 .collect(Collectors.toList());
         return productOfferResponses;
     }
-
-
-
-
 }

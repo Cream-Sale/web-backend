@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/search")
@@ -20,13 +19,21 @@ public class SearchController {
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
-    @GetMapping("/product")
+    @GetMapping("/products")
     public List<ProductOffer> findProductOffers(@RequestParam(value = "search") final String search) {
-        if (Objects.isNull(search) || search.equals("")) {
-            return null; //ToDo
-        }
+        return searchService.findProductOffersByPartOfProductName(search);
+    }
 
-        return searchService.findProductOffers(search);
+    @GetMapping("/productsByFilter")
+    public List<ProductOffer> findProductsByParams(
+            @RequestParam(name = "productName", required = false) final String partOfProductName,
+            @RequestParam(name = "shops", required = false) final List<Long> shops,
+            @RequestParam(name = "priceFrom", required = false) final Float priceFrom,
+            @RequestParam(name = "priceTo", required = false) final Float priceTo) {
+
+        return searchService.findProductOffersByPartOfProductNameAndShopsAndPriceRange(
+                partOfProductName, shops, priceFrom, priceTo
+        );
     }
 
 }

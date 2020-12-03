@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static com.creamsale.repository.specifications.ProductSpecifications.*;
+import static org.springframework.data.jpa.domain.Specification.where;
+
 @Service
 public class ProductService {
 
@@ -42,6 +45,31 @@ public class ProductService {
 
     public List<ProductResponse> findProductsByName(final String productName) {
         List<Product> products = productRepository.findProductsByName(productName);
+        List<ProductResponse> productResponses = products.stream()
+                .filter(Objects::nonNull)
+                .map(productMapper::toProductResponse)
+                .collect(Collectors.toList());
+        return productResponses;
+    }
+
+    public List<ProductResponse> findProductsByPartOfName(final String partOfProductName) {
+        List<Product> products = productRepository.findProductByPartOfName(partOfProductName);
+        List<ProductResponse> productResponses = products.stream()
+                .filter(Objects::nonNull)
+                .map(productMapper::toProductResponse)
+                .collect(Collectors.toList());
+        return productResponses;
+    }
+
+    public List<ProductResponse> findProductsByPartOfNameAndShopsAndPriceRange(
+            final String partOfProductName,
+            final List<Long> shops,
+            final Float priceFrom,
+            final Float priceTo) {
+        List<Product> products = productRepository.findAll(where(likeProductName(partOfProductName))
+                .and(inClauseShops(shops))
+                .and(betweenPrice(priceFrom, priceTo)));
+
         List<ProductResponse> productResponses = products.stream()
                 .filter(Objects::nonNull)
                 .map(productMapper::toProductResponse)
