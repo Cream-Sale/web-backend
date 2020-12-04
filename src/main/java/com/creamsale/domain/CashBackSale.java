@@ -1,6 +1,11 @@
 package com.creamsale.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "cash_back_sale")
@@ -12,16 +17,22 @@ public class CashBackSale {
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "cashBackId", nullable = false)
+    @NotNull
     private CashBack cashBack;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "shopId", nullable = false)
+    @NotNull
     private Shop shop;
 
     @Column(nullable = false)
-    private Float sale;
+    @NotNull
+    @DecimalMin("0.00")
+    @DecimalMax("100.00")
+    private BigDecimal sale;
 
     @Column(nullable = false)
+    @NotBlank
     private String description;
 
     public Long getId() {
@@ -48,11 +59,11 @@ public class CashBackSale {
         this.shop = shop;
     }
 
-    public Float getSale() {
+    public BigDecimal getSale() {
         return sale;
     }
 
-    public void setSale(Float sale) {
+    public void setSale(BigDecimal sale) {
         this.sale = sale;
     }
 

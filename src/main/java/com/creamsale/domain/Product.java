@@ -1,6 +1,8 @@
 package com.creamsale.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "product")
@@ -11,25 +13,37 @@ public class Product {
     private Long id;
 
     @Column(nullable = false)
+    @NotBlank
+    @Size(max = 255)
     private String name;
 
     @Column
+    @Size(max = 255)
     private String fullName;
 
     @Column(nullable = false)
+    @NotNull
+    @Min(1)
+    @Max(Long.MAX_VALUE)
     private Long shopId;
 
     @Column(nullable = false)
-    private Float price;
+    @NotNull
+    @DecimalMin("0.1")
+    private BigDecimal price;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    @NotNull
     private Currency currency;
 
     @Column(nullable = false)
+    @NotBlank
+    @Size(max = 255)
     private String shopCategory;
 
     @Column(nullable = false)
+    @NotBlank
     private String imageLink;
 
     public Long getId() {
@@ -64,11 +78,11 @@ public class Product {
         this.shopId = shopId;
     }
 
-    public Float getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Float price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

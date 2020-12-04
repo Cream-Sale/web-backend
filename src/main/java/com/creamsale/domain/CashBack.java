@@ -1,6 +1,8 @@
 package com.creamsale.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "cash_back")
@@ -11,12 +13,16 @@ public class CashBack {
     private Long id;
 
     @Column(nullable = false)
+    @NotBlank
+    @Size(max = 100)
     private String name;
 
     @Column(nullable = false)
+    @NotBlank
     private String link;
 
     @Column(nullable = false)
+    @NotBlank
     private String imgLink;
 
     public Long getId() {

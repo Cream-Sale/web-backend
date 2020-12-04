@@ -45,7 +45,9 @@ public class SearchService {
                 .filter(Objects::nonNull)
                 .map(productResponse -> {
                     CashBackSaleResponse cashBackSaleResponse = cashBackSaleService.findCashBackSaleByShopId(productResponse.getShopId());
-                    String priceWithSale = String.valueOf((100 - cashBackSaleResponse.getSale()) * productResponse.getPrice() / 100);
+                    String priceWithSale = String.valueOf(
+                            (100 - cashBackSaleResponse.getSale().floatValue()) * productResponse.getPrice().floatValue() / 100
+                    );
                     return new ProductOffer(
                             productResponse.getName(),
                             productResponse.getImageLink(),

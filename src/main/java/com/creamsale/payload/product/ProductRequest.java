@@ -2,18 +2,20 @@ package com.creamsale.payload.product;
 
 import com.creamsale.domain.Currency;
 
+import java.math.BigDecimal;
+
 
 public class ProductRequest {
 
     private final String name;
     private final String fullName;
     private final Long shopId;
-    private final Float price;
+    private final BigDecimal price;
     private final Currency currency;
     private final String shopCategory;
     private final String imageLink;
 
-    public ProductRequest(String name, String fullName, Long shopId, Float price, Currency currency, String shopCategory, String imageLink) {
+    public ProductRequest(String name, String fullName, Long shopId, BigDecimal price, Currency currency, String shopCategory, String imageLink) {
         this.name = name;
         this.fullName = fullName;
         this.shopId = shopId;
@@ -35,7 +37,7 @@ public class ProductRequest {
         return shopId;
     }
 
-    public Float getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 

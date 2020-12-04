@@ -3,15 +3,17 @@ package com.creamsale.payload.cashback;
 import com.creamsale.domain.CashBack;
 import com.creamsale.domain.Shop;
 
+import java.math.BigDecimal;
+
 public class CashBackSaleResponse {
 
     private final Long id;
     private final CashBack cashBack;
     private final Shop shop;
-    private final Float sale;
+    private final BigDecimal sale;
     private final String description;
 
-    public CashBackSaleResponse(Long id, CashBack cashBack, Shop shop, Float sale, String description) {
+    public CashBackSaleResponse(Long id, CashBack cashBack, Shop shop, BigDecimal sale, String description) {
         this.id = id;
         this.cashBack = cashBack;
         this.shop = shop;
@@ -31,7 +33,7 @@ public class CashBackSaleResponse {
         return shop;
     }
 
-    public Float getSale() {
+    public BigDecimal getSale() {
         return sale;
     }
 
