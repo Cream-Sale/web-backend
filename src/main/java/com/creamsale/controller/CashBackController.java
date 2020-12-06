@@ -1,6 +1,7 @@
 package com.creamsale.controller;
 
 import com.creamsale.domain.CashBack;
+import com.creamsale.exception.BadRequestException;
 import com.creamsale.payload.ApiResponse;
 import com.creamsale.payload.cashback.CashBackRequest;
 import com.creamsale.payload.cashback.CashBackResponse;
@@ -27,6 +28,9 @@ public class CashBackController {
 
     @PostMapping("/create")
     public ResponseEntity<?> createCashBack(@Valid @RequestBody final CashBackRequest cashBackRequest) {
+        if (cashBackService.existsByCashBackName(cashBackRequest.getName())) {
+            throw new BadRequestException(String.format("CashBach with '%s' name already exists", cashBackRequest.getName()));
+        }
 
         CashBack createdShop = cashBackService.createCashBack(cashBackRequest);
 

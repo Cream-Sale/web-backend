@@ -1,7 +1,7 @@
 package com.creamsale.service;
 
 import com.creamsale.domain.CashBackSale;
-import com.creamsale.domain.Shop;
+import com.creamsale.exception.NotFoundException;
 import com.creamsale.payload.cashback.CashBackSaleRequest;
 import com.creamsale.payload.cashback.CashBackSaleResponse;
 import com.creamsale.repository.CashBackSaleRepository;
@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class CashBackSaleService {
@@ -36,16 +37,17 @@ public class CashBackSaleService {
 
     public CashBackSaleResponse findCashBackSaleById(final Long cashBackSaleId) {
         CashBackSale cashBackSale = cashBackSaleRepository.findCashBackSaleById(cashBackSaleId);
-        return cashBackSaleMapper.toCashBackSaleResponse(cashBackSale);
-    }
-
-    public CashBackSaleResponse findCashBackSaleByShop(final Shop shop) {
-        CashBackSale cashBackSale = cashBackSaleRepository.findCashBackSaleByShop(shop);
+        if (Objects.isNull(cashBackSale)) {
+            throw new NotFoundException(String.format("CashBackSale with '%s' id not found", cashBackSaleId));
+        }
         return cashBackSaleMapper.toCashBackSaleResponse(cashBackSale);
     }
 
     public CashBackSaleResponse findCashBackSaleByShopId(final Long shopId) {
         CashBackSale cashBackSale = cashBackSaleRepository.findCashBackSaleByShopId(shopId);
+        if (Objects.isNull(cashBackSale)) {
+            throw new NotFoundException(String.format("CashBackSale with '%s' shopId not found", shopId));
+        }
         return cashBackSaleMapper.toCashBackSaleResponse(cashBackSale);
     }
 

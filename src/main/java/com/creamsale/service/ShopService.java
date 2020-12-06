@@ -1,62 +1,61 @@
 package com.creamsale.service;
 
 import com.creamsale.domain.Shop;
+import com.creamsale.exception.NotFoundException;
 import com.creamsale.payload.shop.ShopRequest;
 import com.creamsale.payload.shop.ShopResponse;
 import com.creamsale.repository.ShopRepository;
+import com.creamsale.service.mapper.ShopMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ShopService {
 
     private final ShopRepository shopRepository;
 
+    private final ShopMapper shopMapper;
+
     @Autowired
-    public ShopService(ShopRepository shopRepository) {
+    public ShopService(ShopRepository shopRepository, ShopMapper shopMapper) {
         this.shopRepository = shopRepository;
+        this.shopMapper = shopMapper;
     }
 
     public Shop createShop(final ShopRequest shopRequest) {
-        Shop shop = toShopModel(shopRequest);
+        Shop shop = shopMapper.toShopModel(shopRequest);
         return shopRepository.save(shop);
     }
 
     public List<ShopResponse> findAllShops() {
         List<Shop> shops = shopRepository.findAll();
-        return toShopResponseList(shops);
+        return shopMapper.toShopResponseList(shops);
     }
 
     public ShopResponse findShopById(final Long shopId) {
         Shop shop = shopRepository.findShopById(shopId);
-        return toShopResponse(shop);
+        if (Objects.isNull(shop)) {
+            throw new NotFoundException(String.format("Shop with '%s' id not found", shopId));
+        }
+        return shopMapper.toShopResponse(shop);
     }
 
     public ShopResponse findShopByName(final String shopName) {
         Shop shop = shopRepository.findShopByName(shopName);
-        return toShopResponse(shop);
+        if (Objects.isNull(shop)) {
+            throw new NotFoundException(String.format("Shop with '%s' name not found", shopName));
+        }
+        return shopMapper.toShopResponse(shop);
     }
 
-
-    private Shop toShopModel(final ShopRequest shopRequest) {
-        Shop shop = new Shop();
-        shop.setName(shopRequest.getName());
-        shop.setLink(shopRequest.getLink());
-        shop.setImgLink(shopRequest.getImgLink());
-
-        return shop;
+    public boolean existsByShopName(final String shopName) {
+        return shopRepository.existsByName(shopName);
     }
 
-    private ShopResponse toShopResponse(final Shop shop) {
-        return new ShopResponse(shop.getId(), shop.getName(), shop.getLink(), shop.getImgLink());
-    }
-
-    private List<ShopResponse> toShopResponseList(final List<Shop> shops) {
-        List<ShopResponse> shopResponses = new LinkedList<>();
-        shops.forEach(shop -> shopResponses.add(toShopResponse(shop)));
-        return shopResponses;
+    public boolean existsByShopId(final Long shopId) {
+        return shopRepository.existsById(shopId);
     }
 }

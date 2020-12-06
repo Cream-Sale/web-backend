@@ -1,10 +1,13 @@
 package com.creamsale.controller;
 
 import com.creamsale.domain.CashBackSale;
+import com.creamsale.exception.BadRequestException;
 import com.creamsale.payload.ApiResponse;
 import com.creamsale.payload.cashback.CashBackSaleRequest;
 import com.creamsale.payload.cashback.CashBackSaleResponse;
 import com.creamsale.service.CashBackSaleService;
+import com.creamsale.service.CashBackService;
+import com.creamsale.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,14 +22,24 @@ import java.util.List;
 public class CashBackSaleController {
 
     private final CashBackSaleService cashBackSaleService;
+    private final CashBackService cashBackService;
+    private final ShopService shopService;
 
     @Autowired
-    public CashBackSaleController(CashBackSaleService cashBackSaleService) {
+    public CashBackSaleController(CashBackSaleService cashBackSaleService, CashBackService cashBackService, ShopService shopService) {
         this.cashBackSaleService = cashBackSaleService;
+        this.cashBackService = cashBackService;
+        this.shopService = shopService;
     }
 
     @PostMapping("/create")
     public ResponseEntity<?> createCashBackSale(@Valid @RequestBody final CashBackSaleRequest cashBackSaleRequest) {
+        if (!cashBackService.existsByCashBackId(cashBackSaleRequest.getCashBackId())) {
+            throw new BadRequestException(String.format("CashBach with id '%s' doesn't exist", cashBackSaleRequest.getCashBackId()));
+        }
+        if (!shopService.existsByShopId(cashBackSaleRequest.getShopId())) {
+            throw new BadRequestException(String.format("Shop with id '%s' doesn't exist", cashBackSaleRequest.getShopId()));
+        }
 
         CashBackSale createdCashBackSale = cashBackSaleService.createCashBackSale(cashBackSaleRequest);
 
