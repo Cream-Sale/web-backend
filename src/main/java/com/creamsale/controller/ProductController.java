@@ -38,11 +38,6 @@ public class ProductController {
                 .body(new ApiResponse(true, "Product has been created successfully"));
     }
 
-    @GetMapping("/all")
-    public List<ProductResponse> findAllProducts() {
-        return productService.findAllProducts();
-    }
-
     @GetMapping("/product/id/{productId}")
     public ProductResponse findProductById(@PathVariable final Long productId) {
         return productService.findProductById(productId);

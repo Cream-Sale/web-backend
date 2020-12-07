@@ -1,6 +1,7 @@
 package com.creamsale.service;
 
 import com.creamsale.domain.Product;
+import com.creamsale.exception.NotFoundException;
 import com.creamsale.payload.product.ProductRequest;
 import com.creamsale.payload.product.ProductResponse;
 import com.creamsale.repository.ProductRepository;
@@ -33,13 +34,11 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public List<ProductResponse> findAllProducts() {
-        List<Product> products = productRepository.findAll();
-        return productMapper.toProductResponseList(products);
-    }
-
     public ProductResponse findProductById(final Long productId) {
         Product product = productRepository.findProductById(productId);
+        if (Objects.isNull(product)) {
+            throw new NotFoundException(String.format("Product with '%s' id not found", productId));
+        }
         return productMapper.toProductResponse(product);
     }
 
@@ -76,5 +75,7 @@ public class ProductService {
                 .collect(Collectors.toList());
         return productResponses;
     }
+
+
 
 }

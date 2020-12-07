@@ -1,6 +1,7 @@
 package com.creamsale.controller;
 
 import com.creamsale.domain.Shop;
+import com.creamsale.exception.BadRequestException;
 import com.creamsale.payload.ApiResponse;
 import com.creamsale.payload.shop.ShopRequest;
 import com.creamsale.payload.shop.ShopResponse;
@@ -27,6 +28,9 @@ public class ShopController {
 
     @PostMapping("/create")
     public ResponseEntity<?> createShop(@Valid @RequestBody final ShopRequest shopRequest) {
+        if (shopService.existsByShopName(shopRequest.getName())) {
+            throw new BadRequestException(String.format("Shop with '%s' name already exists", shopRequest.getName()));
+        }
 
         Shop createdShop = shopService.createShop(shopRequest);
 
